@@ -1,0 +1,151 @@
+<?php
+
+/**
+ * Implements of hook_menu()
+ */
+function same_campaign_menu() {
+  $items['ajax/form/post'] = array(
+    'page callback' => '_ajax_form_post',
+    'access arguments' => array('access content'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['ajax/survey/post'] = array(
+    'page callback' => '_ajax_survey_post',
+    'access arguments' => array('access content'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function same_campaign_entity_info_alter(&$entity_info) {
+  // Set the controller class for nodes to an alternate implementation of the
+  // DrupalEntityController interface.
+  if(isset($entity_info['campaign_data'])) {
+    $entity_info['campaign_data']['label callback'] = '_same_campaign_entity_class_label';
+  }
+}
+
+function _same_campaign_entity_class_label($entity, $entity_type) {
+  if($entity->type == 'form') {
+    return $entity->field_data_form_field_name[LANGUAGE_NONE][0]['value'];
+  }
+  if($entity->type == 'survey') {
+    var_dump($entity);exit;
+    return $entity->field_data_form_field_name[LANGUAGE_NONE][0]['value'];
+  }  
+  //var_dump($entity);exit;
+}
+
+/**
+ * Implementation of hook_user_login()
+ */
+function same_campaign_user_login(&$edit, $account) {
+  drupal_goto('/admin/campaign-management');
+}
+
+function _ajax_survey_post() {
+  $raw_data = same_get_post_data();
+  $entity = new stdClass();
+  $data = new stdClass();
+  $data->campaign = $raw_data->campaign;
+  $campaign = node_load($raw_data->campaign);
+  $i = 0;
+  foreach($raw_data->data as $key => $value) {
+    if(isset($campaign->field_survey_item[LANGUAGE_NONE][$i]['target_id'])) {
+      $item_id = $campaign->field_survey_item[LANGUAGE_NONE][$i]['target_id'];
+      $item = node_load($item_id);
+      $type_id = $item->field_item_marker_type[LANGUAGE_NONE][0]['tid'];
+    }
+    //sort($value);
+    $data->{$key} = array();
+    foreach($value as $k => $v) {
+      $data->{$key}[] = _get_alphabet_by_index($v, $type_id);
+    }
+    $i++;    
+  }
+  $entity->type = 'survey';
+  $entity->data = $data;
+  $entity->field_prefix = 'data_survey';
+  same_entity_save($entity);
+  drupal_json_output(array('status'=> '1', 'msg' => 'success'));
+}
+
+function _ajax_form_post() {
+   $data = same_get_post_data();
+   $entity = new stdClass();
+   $entity->type = 'form';
+   $entity->data = $data;
+   $entity->field_prefix = 'data_form_field';
+   same_entity_save($entity);
+   drupal_json_output(array('status'=> '1', 'msg' => 'success'));
+}
+
+function _get_alphabet_by_index($index, $type_id) {
+  if(!in_array($index, array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10')))
+    return $index;
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'taxonomy_term')
+    ->entityCondition('bundle', 'alphabet')
+    ->fieldCondition('field_alphabet_list_style_type', 'tid', $type_id)
+    ->fieldCondition('field_alphabet_index', 'value', $index);
+  if ($result = $query->execute()) {
+    $term = array_shift($result['taxonomy_term']);
+    $term = taxonomy_term_load($term->tid);
+    return $term->name;
+  }
+}
+
+function same_get_post_data() {
+	$data = file_get_contents("php://input");
+	$data = json_decode($data);
+	return $data;
+}
+
+function same_entity_save($entity, $entity_type = 'campaign_data') {
+	$object = entity_create($entity_type, array('type' => $entity->type));
+	$fields_map = same_entity_fields_map($entity_type, $entity->type);
+	foreach($entity->data as $field => $value) {
+		$field_name = sprintf("field_{$entity->field_prefix}_%s", strtolower($field));
+		if(isset($fields_map[$field_name]['value_name'])) {
+      if(is_array($value)) {
+        foreach($value as $k => $v) {
+          $object->{$field_name}[LANGUAGE_NONE][$k][$fields_map[$field_name]['value_name']] = $v;
+        }
+      } else {
+        $object->{$field_name}[LANGUAGE_NONE][0][$fields_map[$field_name]['value_name']] = $value;
+      }
+    }
+	}
+	campaign_data_save($object);
+}
+
+function same_entity_fields_map($entity_type, $bundle) {
+  $cache_key = 'same:entity:fields_map:'.$bundle;
+  if ($cache = cache_get($cache_key))
+    return $cache->data;
+
+  module_load_include('inc', 'field', 'field.info');
+  $fields = field_info_instances($entity_type, $bundle);
+  $map = [];
+
+  foreach ($fields as $field) {
+    $value_name = 'value';
+    if (in_array($field['display']['default']['module'], ['link']))
+      $value_name = 'url';
+    if (in_array($field['display']['default']['module'], ['entityreference']))
+      $value_name = 'target_id';
+  	if(in_array($field['display']['default']['module'], ['taxonomy']))
+      $value_name = 'tid';
+
+    $map[$field['field_name']] = [
+      'value_name' => $value_name
+    ];
+  }
+
+  cache_set($cache_key, $map);
+
+  return $map;	
+}

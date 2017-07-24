@@ -1,0 +1,10 @@
+name = Campaign Data Entity
+description = Campaign Data Entity API.
+package = Same
+version = VERSION
+core = 7.x
+
+dependencies[] = entity
+dependencies[] = views
+
+files[] = campaign_data.controller.inc

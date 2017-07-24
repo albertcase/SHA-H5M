@@ -1,0 +1,139 @@
+<?php
+
+/**
+ * Implements of hook_menu()
+ */
+function same_survey_menu() {
+
+}
+
+/**
+ * Implementation of hook_preprocess_page()
+ */
+function same_survey_preprocess_page(&$variables) {
+
+}
+
+/**
+ * Implementation of hook_preprocess_node()
+ */
+function same_survey_preprocess_node(&$variables) {
+  //var_dump($variables);exit;
+  if($variables['type'] == 'survey') {
+    $fun_name_tpl = "_{$variables['type']}_template_data";
+    $fun_name_data = "_{$variables['type']}_campaign_data";
+    if(function_exists($fun_name_tpl) && function_exists($fun_name_data)) {
+      $data = array('template_data' => $fun_name_tpl($variables['node']), 'campaign_data' => $fun_name_data($variables['node']));
+      drupal_add_js($data, 'setting');
+    }    
+  }
+}
+
+function _survey_template_data($node) {
+
+  $template = node_load($node->field_survey_template_id[LANGUAGE_NONE][0]['target_id']);
+
+  $data = new stdClass();
+  $data->logo = '';
+  $data->backgound_color = '';
+  $data->backgound_image = '';
+  $data->button_color = '';
+
+  if(isset($template->field_template_logo[LANGUAGE_NONE][0]['uri']))
+    $data->logo = file_create_url($template->field_template_logo[LANGUAGE_NONE][0]['uri']);
+
+  if(isset($template->field_template_bg_color[LANGUAGE_NONE][0]["rgb"]))
+    $data->backgound_color = $template->field_template_bg_color[LANGUAGE_NONE][0]["rgb"];
+
+  if(isset($template->field_template_bg_image[LANGUAGE_NONE][0]["uri"]))
+    $data->backgound_image = file_create_url($template->field_template_bg_image[LANGUAGE_NONE][0]["uri"]);
+
+  if(isset($template->field_template_btn_color[LANGUAGE_NONE][0]["rgb"]))
+    $data->button_color = $template->field_template_btn_color[LANGUAGE_NONE][0]["rgb"];
+ 
+  return $data;
+}
+
+function _survey_campaign_data($node) {
+
+  $total_page = count($node->field_survey_item[LANGUAGE_NONE]) + 2;
+
+  $homepage = new stdClass();
+  $homepage->text = '';
+  $homepage->button_text = '';
+  if(isset($node->field_survey_home_page_text[LANGUAGE_NONE][0]['value']))
+    $homepage->text = nl2br($node->field_survey_home_page_text[LANGUAGE_NONE][0]['value']);
+  if(isset($node->field_page_button_text[LANGUAGE_NONE][0]['value']))
+    $homepage->button_text = $node->field_page_button_text[LANGUAGE_NONE][0]['value'];
+
+  $successpage = new stdClass();
+  $successpage->text = '';
+  $successpage->button_text = '';
+  $successpage->button_link = '';
+  if(isset($node->field_survey_success_page_text[LANGUAGE_NONE][0]['value']))
+    $successpage->text = nl2p($node->field_survey_success_page_text[LANGUAGE_NONE][0]['value']);
+  if(isset($node->field_page_button_text[LANGUAGE_NONE][$total_page-1]['value']))
+    $successpage->button_text = $node->field_page_button_text[LANGUAGE_NONE][$total_page-1]['value'];
+  if(isset($node->field_page_forword_link[LANGUAGE_NONE][0]['url'])) {
+    $successpage->button_link = $node->field_page_forword_link[LANGUAGE_NONE][0]['url'];
+  }
+  
+  $items = array();
+  foreach($node->field_survey_item[LANGUAGE_NONE] as $key => $entity) {
+    $entity = $entity['entity'];
+    $item = new stdClass();
+    $type = taxonomy_term_load($entity->field_item_type[LANGUAGE_NONE][0]['tid']);
+    $marker = taxonomy_term_load($entity->field_item_marker_type[LANGUAGE_NONE][0]['tid']);
+    $item->item_id = $entity->nid;
+    $item->title = $entity->title;
+    $item->type = $type->name;
+    $item->name = 'item'.($key + 1);
+    $item->options = array();
+    if(isset($entity->field_item_options[LANGUAGE_NONE])) {
+      if($item->type == 'textarea') {
+        $item->textarea_label = $entity->field_item_options[LANGUAGE_NONE][0]['value'];
+      } else {
+        if($item->type == 'mix') {
+          $textarea_label = array_pop($entity->field_item_options[LANGUAGE_NONE]);
+          $item->textarea_label = $textarea_label['value'];
+        } 
+        foreach($entity->field_item_options[LANGUAGE_NONE] as $option) {
+          $item->options[] = $option['value'];
+        }  
+      }
+    }
+    $item->list_style_type = $marker->name;
+    $item->button_text = '';
+    if(isset($node->field_page_button_text[LANGUAGE_NONE][$key+1]['value']))
+      $item->button_text = $node->field_page_button_text[LANGUAGE_NONE][$key+1]['value'];
+    $items[] = $item;
+  }
+
+  $data = new stdClass();
+  $data->homepage = $homepage;
+  $data->items = $items;
+  $data->successpage = $successpage;
+  $data->campaign = $node->nid;
+
+  return $data;
+}
+
+
+function nl2p($string, $line_breaks = true, $xml = true)
+{
+    // Remove existing HTML formatting to avoid double-wrapping things
+    $string = str_replace(array('<p>', '</p>', '<br>', '<br />'), '', $string);
+    
+    // It is conceivable that people might still want single line-breaks
+    // without breaking into a new paragraph.
+    if ($line_breaks == true)
+        return '<p>'.preg_replace(array("/([\n]{2,})/i", "/([^>])\n([^<])/i"), array("</p>\n<p>", '<br'.($xml == true ? ' /' : '').'>'), trim($string)).'</p>';
+    else 
+        return '<p>'.preg_replace("/([\n]{1,})/i", "</p>\n<p>", trim($string)).'</p>';
+}
+
+
+
+
+
+

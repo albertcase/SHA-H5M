@@ -1,0 +1,6 @@
+name = Same Navbar Theme
+description = Administration theme improved Navbar.
+core = 7.x
+package = Same
+
+dependencies[] = navbar

@@ -1,0 +1,5 @@
+name = Form Template
+description = H5 Form Template
+package = Same
+version = VERSION
+core = 7.x

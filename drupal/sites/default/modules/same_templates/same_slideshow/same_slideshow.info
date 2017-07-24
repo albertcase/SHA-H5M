@@ -1,0 +1,5 @@
+name = Slideshow Template
+description = H5 Slideshow Template
+package = Same
+version = VERSION
+core = 7.x

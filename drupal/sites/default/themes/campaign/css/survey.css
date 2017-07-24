@@ -1,0 +1,101 @@
+/*****************************
+* question.html
+*****************************/
+
+.q{
+  width: 100%;
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+ }
+
+.q.active{
+  display: inline-block;
+  visibility: visible;
+  opacity: 1;
+}
+
+.q-head{
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0 0 15px 0;
+  margin: 0 0 18px 0;
+  border-bottom: 1px #e5e5e5 solid;
+}
+
+.q-head em{
+  font-size: 1.2rem;
+  color: #999;
+}
+
+.question-list li{
+    width: 80%;
+    margin: 20px 0 20px 18%;
+    position: relative;
+    word-break:break-all;
+    line-height: 20px;
+    font-size: 1.3rem;
+    /*display: inline-block;*/
+}
+
+.question-list li.other{
+  margin: 15px 0;
+}
+
+.question-list li input[type='radio'], .question-list li input[type='checkbox']{
+  position: absolute;
+  left: -18%;
+  top: 5px;
+}
+
+.question-list li textarea{
+  width: 96%;
+  height: 82%;
+  margin: 3%;
+  line-height: 20px;
+  word-break:break-all;
+  display: inline-block;
+}
+
+.question-list li.notype{
+  margin-left: 0;
+  width: 100%;
+}
+
+.question-list li.notype p{
+  padding: 0 0 6px 0;
+}
+
+.question-list li.notype .disc{
+  width: 100%;
+  border: 1px #e5e5e5 solid;
+  height: 100px;
+  display: inline-block;
+}
+
+.page-con{
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.page-con__text{
+  font-size: 1.6rem;
+  line-height: 27px;
+  display: inline-block;
+  word-break:break-all;
+}
+
+
+

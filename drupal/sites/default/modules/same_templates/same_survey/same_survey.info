@@ -1,0 +1,5 @@
+name = Survey Template
+description = H5 Survey Template
+package = Same
+version = VERSION
+core = 7.x

@@ -1,0 +1,19 @@
+.navbar-icon-campaign:before {
+    background-image: url("../icons/campaign-grey.svg");
+}
+.navbar-icon-campaign:active:before,
+.navbar-icon-campaign.navbar-active:before {
+    background-image: url("../icons/campaign-grey.svg");
+}
+/* line 661, ../sass/kuri_wechat_theme.scss */
+body.adminimal-skin-material #navbar-administration.navbar-oriented .navbar-tray-horizontal .navbar-menu li ul.campaign-menu-active {
+  position: absolute;
+  background-color: #EEEEEE;
+  z-index: 10;
+}
+/* line 665, ../sass/kuri_wechat_theme.scss */
+body.adminimal-skin-material #navbar-administration.navbar-oriented .navbar-tray-horizontal .navbar-menu li ul.campaign-menu-active li {
+  float: none;
+  border: 1px solid #aaaaaa;
+  border-top: none;
+}

@@ -1,0 +1,232 @@
+@charset "utf-8";
+/* =reset 网页样式重置
+------------------------------------------------------------------------------------------------------------------------------*/
+
+html { 
+  -webkit-tap-highlight-color:rgba(0,0,0,0); 
+  -webkit-tap-highlight:rgba(0,0,0,0);
+  -webkit-text-size-adjust:none;
+  overflow:-moz-scrollbars-vertical;/*强制firefox出现滑动条*/
+}
+
+
+/* 阻止旋转屏幕时自动调整字体大小 */
+* { 
+  padding: 0; 
+  margin: 0;
+
+  -webkit-text-size-adjust: none;
+  /* 无法选择复制内容 */
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  /* 去除iphone中按下时的高亮效果 */
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+  -webkit-box-sizing: border-box;  
+  -moz-box-sizing: border-box; 
+  box-sizing: border-box;
+
+  /*-webkit-user-modify: read-write-plaintext-only;*/
+}
+
+
+
+input:focus { 
+  outline: none; 
+}
+
+textarea{
+  resize:none;   /*-webkit-appearance:none;*//*强制去除textarea自带的样式*/ 
+}
+
+input:-webkit-autofill { /*利用阴影来填充掉input自动填充色*/
+  -webkit-box-shadow: 0 0 0px 1000px white inset; 
+} 
+
+article, aside, footer, header, hgroup, nav, section, figure, figcaption { /*html5设置*/
+  display: block;
+} 
+
+em { 
+  font-style:normal;
+}
+
+img, input, button, select, textarea { 
+  vertical-align:middle;
+  outline:none;
+  font-size: 1.3rem;
+}
+ul{ 
+  list-style:none;
+}
+img, fieldset { 
+  border:0;
+}
+
+/**
+ * = global 统一样式
+ *******************************************************************************************************/
+/* 改变动画的效果方式*/
+
+
+/* 链接长按时不触发系统的菜单，也可用于img，在不想让用户长按将图片保存至相册时使用，默认禁止链接和图片 */
+a,img { 
+  -webkit-touch-callout: none;
+}
+
+/* 去除input和输入框的默认样式，并默认赋予30%的黑色背景 */
+input, textarea, select, button { 
+  /*-webkit-appearance: none;*/  /*强制去除表单自带的样式 */
+  border: none; 
+  background: none; 
+  border-radius: 0; 
+
+  /* 无法选择复制内容 */
+  /*-webkit-user-select: auto; 
+  -moz-user-select: auto;*/
+
+  outline:none;
+}
+
+select{
+  -webkit-appearance: none;  /*强制去除表单自带的样式 */
+  border: none; 
+  background: none; 
+  border-radius: 0; 
+}
+
+
+::selection{
+    color: #fff;
+    color: rgba(255,255,255,0.9);
+    background: #333;
+    text-shadow: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+
+/**
+ * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+ *    controls in Android 4.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button,
+html [type="button"], /* 1 */
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+a {
+  background-color: transparent; /* 1 */
+  -webkit-text-decoration-skip: objects; /* 2 */
+  text-decoration:none;
+
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+audio,
+video {
+  display: inline-block;
+}
+
+/**
+ * Add the correct display in iOS 4-7.
+ */
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+input::-webkit-input-placeholder{color:rgba(51, 31, 25, .55);}
+input:focus::-webkit-input-placeholder{color:rgba(51, 31, 25, .55);}
+
+
+a {
+    color: #000;
+    background: transparent;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color .2s ease;
+
+    &:hover {
+         color: $link-hover-color;
+    }
+
+    &:active {
+        color: $link-active-color;
+    }
+
+    &:active,
+    &:hover {
+        outline: 0;
+        text-decoration: none;
+    }
+
+    &[disabled] {
+        color: #ccc;
+        pointer-events: none;
+    }
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #9e9a98;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #9e9a98;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #9e9a98;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #9e9a98;
+}
+
+/* 修改chrome记住密码后自动填充表单的黄色背景 ？ */
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background-color: rgb(250, 255, 189); /* #FAFFBD; */
+  background-image: none;
+  color: rgb(0, 0, 0);
+}
+
+
+

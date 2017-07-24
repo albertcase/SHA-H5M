@@ -1,0 +1,5 @@
+name = Same Campaign
+description = Same Campaign
+package = Same
+version = VERSION
+core = 7.x

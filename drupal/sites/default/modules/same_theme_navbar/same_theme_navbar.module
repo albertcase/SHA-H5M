@@ -1,0 +1,87 @@
+<?php
+/**
+ * Implements hook_navbar().
+ */
+function same_theme_navbar_navbar() {
+  $links = same_theme_navbar_get_menu_tree();
+
+  $items['campaign_manage'] = array(
+    '#type' => 'navbar_item',
+    'tab' => array(
+      '#type' => 'link',
+      '#title' => t('Campaign'),
+      '#href' => 'admin/campaign',
+      '#options' => array(
+        'attributes' => array(
+          'title' => t('Campaign'),
+          'id' => 'navbar-item--campaign',
+          'class' => array('navbar-icon', 'navbar-icon-campaign',),
+        ),
+      ),
+    ),
+    'tray' => array(
+      '#heading' => t('Campaign Manage menu'),
+      'navbar_wechat' => array(
+        '#type' => 'container',
+        '#attributes' => array(
+          'class' => array('navbar-menu', 'navbar-menu-user'),
+        ),
+        'campaign_menu' => $links,
+      ),
+    ),
+    '#weight' => -12,
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'same_theme_navbar') . '/js/campaign.js'
+      ),
+      'css' => array(
+        drupal_get_path('module', 'same_theme_navbar') . '/css/campaign.css'
+      ),
+    )
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_navbar_alter().
+ */
+function same_theme_navbar_navbar_alter(&$items) {
+
+  unset($items['shortcuts']);
+
+  if (user_is_logged_in()) {
+    global $user;
+    if (!in_array('administrator', $user->roles)) {
+      unset($items['administration']);
+      unset($items['home']);
+    }
+    // remove account menu item
+    unset($items['user']['tray']['user_links']['#links']['account']);
+  }
+
+}
+
+
+function same_theme_navbar_get_menu_tree() {
+
+  $tree = menu_build_tree('menu-campaign-management');
+
+  // Add attributes to the links before rendering.
+  navbar_menu_navigation_links($tree);
+  $formatted = menu_tree_output($tree);
+  return $formatted;
+}
+
+function same_theme_navbar_get_language_switcher() {
+  $path = drupal_is_front_page() ? '<front>' : $_GET['q'];
+  //$links = language_negotiation_get_switch_links('language', $path);
+  $links = $path;
+//  var_dump($links);exit;
+  $formatted = [];
+  foreach ($links->links as $key => $item) {
+    $formatted[$key] = $item;
+  }
+
+  return $formatted;
+}
