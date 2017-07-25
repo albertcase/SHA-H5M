@@ -4,7 +4,7 @@
 <?php print $head; ?>
 <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 <meta name="format-detection" content="telephone=no">
-<title><?php print $head_title; ?></title>
+<title><?php print $title; ?></title>
 <?php print $styles; ?>
 <?php print $scripts; ?> 
 
