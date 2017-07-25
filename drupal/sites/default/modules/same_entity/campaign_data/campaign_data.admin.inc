@@ -122,7 +122,7 @@ function campaign_data_add($type) {
   $entity = entity_create('campaign_data', array('type' => $type));
   drupal_set_title(t('Create @name', array('@name' => entity_label('entity_type', $entity_type))));
 
-  $output = drupal_get_form('campaign_data_type_form', $entity);
+  $output = drupal_get_form('campaign_data_form', $entity);
 
   return $output;
 }

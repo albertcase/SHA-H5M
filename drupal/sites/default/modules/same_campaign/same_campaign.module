@@ -20,6 +20,14 @@ function same_campaign_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form().
+ *
+ */
+function same_campaign_form_node_form_alter(&$form, $form_state) {
+  $form['path']['#weight'] = -10;
+}
+
 function same_campaign_entity_info_alter(&$entity_info) {
   // Set the controller class for nodes to an alternate implementation of the
   // DrupalEntityController interface.
@@ -30,11 +38,12 @@ function same_campaign_entity_info_alter(&$entity_info) {
 
 function _same_campaign_entity_class_label($entity, $entity_type) {
   if($entity->type == 'form') {
-    return $entity->field_data_form_field_name[LANGUAGE_NONE][0]['value'];
+    if(isset($entity->field_data_form_field_name[LANGUAGE_NONE][0]['value']))
+      return $entity->field_data_form_field_name[LANGUAGE_NONE][0]['value'];
   }
   if($entity->type == 'survey') {
-    var_dump($entity);exit;
-    return $entity->field_data_form_field_name[LANGUAGE_NONE][0]['value'];
+    if(isset($entity->field_data_form_field_name[LANGUAGE_NONE][0]['value']))
+      return $entity->field_data_form_field_name[LANGUAGE_NONE][0]['value'];
   }  
   //var_dump($entity);exit;
 }
