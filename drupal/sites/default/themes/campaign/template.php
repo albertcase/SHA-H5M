@@ -1,7 +1,7 @@
 <?php
 
 function campaign_preprocess_html(&$variables) {
-
+  $variables['head_title'] = drupal_get_title();
 }
 
 function campaign_preprocess_page(&$variables) {
