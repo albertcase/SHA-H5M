@@ -53,17 +53,24 @@
     /*height: 100px;*/
     padding: 12px 0;
     background: #fff;
-    position: absolute;
+    /*position: absolute;
     left: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 2;*/
     text-align: center;
 }
 
 #Album2 .slidelist{
-  bottom: auto;
-  top: 0;
+  padding: 0;
 }
+
+#Album .slidelist{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
 
 #Album .slidelist .swiper-container{
   width: 80%;

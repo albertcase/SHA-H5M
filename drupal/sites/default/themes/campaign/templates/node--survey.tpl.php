@@ -53,7 +53,7 @@
 
 	// console.log(template_data, campaign_data);
 	
-	var templateObj = new templateData('dreambox', template_data);
+	var templateObj = new templateData('body', template_data);
 	templateObj.init();
 
 

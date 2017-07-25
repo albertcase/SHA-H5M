@@ -14,13 +14,13 @@
     </div>
 
     <div class="section" id="form">
-        <div class="con">
+        <div class="con ycenter">
             <div class="form-group"></div>
         </div>
 
         <div class="form-footer">
           <a href="javascript:void(0);" class="btn submitForm">
-            ------ 
+            -- 
           </a>
         </div>
     </div>
@@ -32,7 +32,7 @@
 
         <div class="form-footer">
           <a href="javascript:void(0);" class="btn moreBtn" target="_blank">
-            ------ 
+            --
           </a>
         </div>
     </div>
@@ -45,11 +45,11 @@
 	 console.log(template_data, campaign_data);
 
     // 模版基础数据
-	var templateObj = new templateData('dreambox', template_data);
+	var templateObj = new templateData('body', template_data);
 	templateObj.init();
 
 
-	var f = new form('dreambox', campaign_data);
+	var f = new __form('dreambox', campaign_data);
 	f.init();
 
 

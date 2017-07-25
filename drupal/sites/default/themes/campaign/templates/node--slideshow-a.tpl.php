@@ -23,7 +23,7 @@
 		<div id="logo"></div>
     </div>
 
-    <div class="section" id="Album">
+    <div class="section hidden" id="Album">
 	    <div class="con">
 	        <!-- Swiper -->
 	        <div class="album-large">
@@ -52,10 +52,10 @@
 
 	// console.log(template_data, campaign_data);
 
-	var templateObj = new templateData('dreambox', template_data);
+	var templateObj = new templateData('body', template_data);
 	templateObj.init();
 
 
-	var _album = new Album('album-swiper', campaign_data);
+	var _album = new __Album('album-swiper', campaign_data);
 	_album.init();
 </script>

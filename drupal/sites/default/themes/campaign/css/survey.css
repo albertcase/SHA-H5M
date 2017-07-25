@@ -1,12 +1,16 @@
 /*****************************
 * question.html
 *****************************/
+.question-list{
+  width: 100%;
+}
 
 .q{
   width: 100%;
   display: none;
   visibility: hidden;
   opacity: 0;
+  text-align: left;
  }
 
 .q.active{
@@ -45,8 +49,8 @@
 
 .question-list li input[type='radio'], .question-list li input[type='checkbox']{
   position: absolute;
-  left: -18%;
-  top: 5px;
+  left: -20%;
+  top: 2px;
 }
 
 .question-list li textarea{
@@ -61,6 +65,7 @@
 .question-list li.notype{
   margin-left: 0;
   width: 100%;
+  overflow: hidden;
 }
 
 .question-list li.notype p{
@@ -92,7 +97,7 @@
 
 .page-con__text{
   font-size: 1.6rem;
-  line-height: 27px;
+  line-height: 1.8rem;
   display: inline-block;
   word-break:break-all;
 }

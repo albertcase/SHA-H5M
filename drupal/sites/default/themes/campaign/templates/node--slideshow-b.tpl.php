@@ -24,7 +24,7 @@
 		<div id="logo"></div>
     </div>
 
-    <div class="section" id="Album2">
+    <div class="section hidden" id="Album2">
 	    <div class="con">
 	  
 	        <div class='slidelist'>
@@ -49,10 +49,10 @@
 
 	// console.log(template_data, campaign_data);
 
-	var templateObj = new templateData('dreambox', template_data);
+	var templateObj = new templateData('body', template_data);
 	templateObj.init();
 
 
-	var _album = new Album('#album2-swiper', campaign_data);
+	var _album = new __Album('#album2-swiper', campaign_data);
 	_album.init();
 </script>

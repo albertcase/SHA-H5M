@@ -17,8 +17,8 @@ html {
 
   -webkit-text-size-adjust: none;
   /* 无法选择复制内容 */
-  -webkit-user-select: none; 
-  -moz-user-select: none; 
+  /*-webkit-user-select: none; 
+  -moz-user-select: none; */
   /* 去除iphone中按下时的高亮效果 */
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 
@@ -77,9 +77,9 @@ a,img {
 /* 去除input和输入框的默认样式，并默认赋予30%的黑色背景 */
 input, textarea, select, button { 
   /*-webkit-appearance: none;*/  /*强制去除表单自带的样式 */
-  border: none; 
+/*  border: none; 
   background: none; 
-  border-radius: 0; 
+  border-radius: 0; */
 
   /* 无法选择复制内容 */
   /*-webkit-user-select: auto; 
@@ -88,7 +88,8 @@ input, textarea, select, button {
   outline:none;
 }
 
-select{
+
+select, input[type='text'], input[type='tel'], textarea, button{
   -webkit-appearance: none;  /*强制去除表单自带的样式 */
   border: none; 
   background: none; 
@@ -157,22 +158,9 @@ strong {
   font-weight: bolder;
 }
 
-audio,
-video {
-  display: inline-block;
-}
-
 /**
  * Add the correct display in iOS 4-7.
  */
-
-audio:not([controls]) {
-  display: none;
-  height: 0;
-}
-
-input::-webkit-input-placeholder{color:rgba(51, 31, 25, .55);}
-input:focus::-webkit-input-placeholder{color:rgba(51, 31, 25, .55);}
 
 
 a {
