@@ -305,6 +305,8 @@ body{
 
 #dreambox{
 	width: 100%;
+    height: 100%;
+    overflow: auto;
     background-size: 100% auto;
 	/*position: absolute;
     left: 0;
