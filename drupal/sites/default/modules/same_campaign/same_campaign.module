@@ -20,6 +20,10 @@ function same_campaign_menu() {
   return $items;
 }
 
+function same_campaign_preprocess_html(&$variables) {
+  $variables['head_title'] = drupal_get_title();
+}
+
 /**
  * Implements hook_form_BASE_FORM_ID_alter() for node_form().
  *
